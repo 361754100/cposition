@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>	
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry location="D:\mybatis_driver\mysql_driver.jar" />
+	<context id="prod">
+		<!-- RowBounds pagination -->
+		<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
+		<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<!-- jdbc连接 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://193.112.105.43:3306/carmonitor?useSSL=false" userId="root"
+			password="rycuj9_Jian" />
+
+
+		<javaModelGenerator targetPackage="com.hro.core.cposition.dao.model"
+			targetProject="src/main/java" />
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="src/main/resources" />
+		<javaClientGenerator targetPackage="com.hro.core.cposition.dao.mapper"
+			targetProject="src/main/java" type="XMLMAPPER" />
+
+			
+		<!--<table tableName="USER_INFO" domainObjectName="UserInfo">
+			<property name="useActualColumnNames" value="false"/>
+		</table>-->
+
+		<!--<table tableName="POSITION" domainObjectName="Position">
+			<property name="useActualColumnNames" value="false"/>
+			&lt;!&ndash; <generatedKey column="Id" sqlStatement="JDBC" identity="true" />  &ndash;&gt;
+		</table>
+
+		<table tableName="POSITION_HISTORY" domainObjectName="PositionHistory">
+			<property name="useActualColumnNames" value="false"/>
+			&lt;!&ndash; <generatedKey column="Id" sqlStatement="JDBC" identity="true" />  &ndash;&gt;
+		</table>-->
+		
+	</context>
+</generatorConfiguration>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hro.core.cposition.dao.mapper.PositionHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.hro.core.cposition.dao.model.PositionHistory" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="DEVID" property="devid" jdbcType="VARCHAR" />
+    <result column="LNG" property="lng" jdbcType="DOUBLE" />
+    <result column="LAT" property="lat" jdbcType="DOUBLE" />
+    <result column="BD_LNG" property="bdLng" jdbcType="DOUBLE" />
+    <result column="BD_LAT" property="bdLat" jdbcType="DOUBLE" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, DEVID, LNG, LAT, BD_LNG, BD_LAT, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hro.core.cposition.dao.model.PositionHistoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from POSITION_HISTORY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from POSITION_HISTORY
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from POSITION_HISTORY
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hro.core.cposition.dao.model.PositionHistoryExample" >
+    delete from POSITION_HISTORY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hro.core.cposition.dao.model.PositionHistory" >
+    insert into POSITION_HISTORY (ID, DEVID, LNG, 
+      LAT, BD_LNG, BD_LAT, CREATE_TIME
+      )
+    values (#{id,jdbcType=INTEGER}, #{devid,jdbcType=VARCHAR}, #{lng,jdbcType=DOUBLE}, 
+      #{lat,jdbcType=DOUBLE}, #{bdLng,jdbcType=DOUBLE}, #{bdLat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hro.core.cposition.dao.model.PositionHistory" >
+    insert into POSITION_HISTORY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="devid != null" >
+        DEVID,
+      </if>
+      <if test="lng != null" >
+        LNG,
+      </if>
+      <if test="lat != null" >
+        LAT,
+      </if>
+      <if test="bdLng != null" >
+        BD_LNG,
+      </if>
+      <if test="bdLat != null" >
+        BD_LAT,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="devid != null" >
+        #{devid,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null" >
+        #{lng,jdbcType=DOUBLE},
+      </if>
+      <if test="lat != null" >
+        #{lat,jdbcType=DOUBLE},
+      </if>
+      <if test="bdLng != null" >
+        #{bdLng,jdbcType=DOUBLE},
+      </if>
+      <if test="bdLat != null" >
+        #{bdLat,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hro.core.cposition.dao.model.PositionHistoryExample" resultType="java.lang.Integer" >
+    select count(*) from POSITION_HISTORY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update POSITION_HISTORY
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.devid != null" >
+        DEVID = #{record.devid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lng != null" >
+        LNG = #{record.lng,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lat != null" >
+        LAT = #{record.lat,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bdLng != null" >
+        BD_LNG = #{record.bdLng,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bdLat != null" >
+        BD_LAT = #{record.bdLat,jdbcType=DOUBLE},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update POSITION_HISTORY
+    set ID = #{record.id,jdbcType=INTEGER},
+      DEVID = #{record.devid,jdbcType=VARCHAR},
+      LNG = #{record.lng,jdbcType=DOUBLE},
+      LAT = #{record.lat,jdbcType=DOUBLE},
+      BD_LNG = #{record.bdLng,jdbcType=DOUBLE},
+      BD_LAT = #{record.bdLat,jdbcType=DOUBLE},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hro.core.cposition.dao.model.PositionHistory" >
+    update POSITION_HISTORY
+    <set >
+      <if test="devid != null" >
+        DEVID = #{devid,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null" >
+        LNG = #{lng,jdbcType=DOUBLE},
+      </if>
+      <if test="lat != null" >
+        LAT = #{lat,jdbcType=DOUBLE},
+      </if>
+      <if test="bdLng != null" >
+        BD_LNG = #{bdLng,jdbcType=DOUBLE},
+      </if>
+      <if test="bdLat != null" >
+        BD_LAT = #{bdLat,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hro.core.cposition.dao.model.PositionHistory" >
+    update POSITION_HISTORY
+    set DEVID = #{devid,jdbcType=VARCHAR},
+      LNG = #{lng,jdbcType=DOUBLE},
+      LAT = #{lat,jdbcType=DOUBLE},
+      BD_LNG = #{bdLng,jdbcType=DOUBLE},
+      BD_LAT = #{bdLat,jdbcType=DOUBLE},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.hro.core.cposition.dao.model.PositionHistoryExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from POSITION_HISTORY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
