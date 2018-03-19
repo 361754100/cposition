@@ -49,7 +49,7 @@ public class PositionCaculateTask implements Runnable {
 
         Request.Builder builder = new Request.Builder();
         builder.url(apiUrl);
-        builder.addHeader(Constant.X_AUTH_HEADER, "rsaKey");
+        builder.addHeader(Constant.X_AUTH_HEADER, "F4J+mzSLsoqwf+YlZH0pVwcR2rGFt3/ZMDhI5hQieKBNIJHmAtxfwnjYBqUkE5w8Il3fZwA1yOt3S/ilSNRm7GAtWMVK3Sm/U3a/dKI2f3JWsWZjm+P2Mef26w2kndPE0T5o6YMLO5blTeybYmZBpL0nMcYs+6DO6/bS5MhM3NY=");
         builder.method(Constant.METHOD_POST, formBody);
 
         final Request request = builder.build();
