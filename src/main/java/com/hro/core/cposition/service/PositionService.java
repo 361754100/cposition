@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -119,6 +120,20 @@ public class PositionService {
         resp.setPageSize(req.getPageSize());
 
         return resp;
+    }
+
+    /**
+     * 根据设备ID查询
+     * @return
+     */
+    public Position queryInfoByDevid(String devid) {
+        Position position = null;
+
+        List<Position> result = positionDao.queryInfoByDevid(devid);
+        if(!CollectionUtils.isEmpty(result)) {
+            position = result.get(0);
+        }
+        return position;
     }
 
 }

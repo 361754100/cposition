@@ -10,6 +10,8 @@ import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -19,6 +21,7 @@ public class PositionCaculateTask implements Runnable {
 
     private Position oldPosition;
     private Position newPosition;
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -76,6 +79,7 @@ public class PositionCaculateTask implements Runnable {
             // 大于5米则报警
             if(dist > Double.parseDouble(alarmRadius)) {
                 logger.info("设备：Devid={}，位置偏移告警，偏移量：{}米", new Object[]{devid, dist});
+//                this.sendWarnSms();
             }
         }catch (Exception e) {
             logger.error("解析接口响应异常", e);
@@ -120,4 +124,45 @@ public class PositionCaculateTask implements Runnable {
 //            return nFormat.format(dis)+"km";
 //        }
     }
+
+    /**
+     * 发送短信告警
+
+    private void sendWarnSms() {
+        // 短信应用SDK AppID
+        int appid = 1400077065; // 1400开头
+
+        // 短信应用SDK AppKey
+        String appkey = "ea7598b20a010e52a312d33d0b8031aa";
+
+        // 需要发送短信的手机号码
+        String[] phoneNumbers = {"13751823091"};
+
+        // 短信模板ID，需要在短信应用中申请
+        int templateId = 96690; // NOTE: 这里的模板ID`7839`只是一个示例，真实的模板ID需要在短信控制台中申请
+
+        // 签名
+        String smsSign = "汽车监控告警"; // NOTE: 这里的签名"腾讯云"只是一个示例，真实的签名需要在短信控制台中申请，另外签名参数使用的是`签名内容`，而不是`签名ID`
+
+        try {
+            String dateStr = dateFormat.format(new Date());
+            String lngLat = newPosition.getBdLng() +", "+ newPosition.getBdLat();
+            String[] params = {newPosition.getDevid(), lngLat, dateStr};
+
+            SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
+            SmsSingleSenderResult result = ssender.sendWithParam("86", phoneNumbers[0],
+                    templateId, params, smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
+            System.out.print(result);
+        } catch (HTTPException e) {
+            // HTTP响应码错误
+            e.printStackTrace();
+        } catch (JSONException e) {
+            // json解析错误
+            e.printStackTrace();
+        } catch (IOException e) {
+            // 网络IO错误
+            e.printStackTrace();
+        }
+    }
+     */
 }

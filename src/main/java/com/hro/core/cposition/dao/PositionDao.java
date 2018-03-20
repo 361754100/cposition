@@ -125,7 +125,7 @@ public class PositionDao {
     }
 
     /**
-     *
+     * 分页查询
      * @return
      */
     public List<Position> queryPageRecord(PositionReq req) {
@@ -135,6 +135,19 @@ public class PositionDao {
         PositionExample example = new PositionExample();
 
         List<Position> result = positionMapper.selectByExampleWithRowbounds(example, RowBoundsUtil.of(pageNum, pageSize));
+        return result;
+    }
+
+    /**
+     * 按设备ID查询
+     * @return
+     */
+    public List<Position> queryInfoByDevid(String devid) {
+
+        PositionExample example = new PositionExample();
+        example.createCriteria().andDevidEqualTo(devid);
+
+        List<Position> result = positionMapper.selectByExample(example);
         return result;
     }
 
