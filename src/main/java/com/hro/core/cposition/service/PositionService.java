@@ -131,7 +131,7 @@ public class PositionService {
         // 先从缓存中读取数据
         Position oldPosition = (Position) redisService.getObj(CACHE_KEY_PREFIX + devid, Position.class);
         if(oldPosition != null) {
-            return position;
+            return oldPosition;
         }
 
         List<Position> result = positionDao.queryInfoByDevid(devid);
