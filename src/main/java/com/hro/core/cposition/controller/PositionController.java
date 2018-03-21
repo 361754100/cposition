@@ -56,11 +56,13 @@ public class PositionController {
     @ApiOperation(value = "根据设备编号查询位置信息", notes = "")
     @RequestMapping(value = "/queryInfoByDevid", method = RequestMethod.POST)
     @ResponseBody
-    public Position queryInfoByDevid(@RequestParam String devid) {
-        LogUtil.info("根据设备编号查询位置信息, 接收到的请求参数={}", devid);
+    public Position queryInfoByDevid(@RequestBody Position params) {
+        LogUtil.info("根据设备编号查询位置信息, 接收到的请求参数={}", params);
 
+        String devid = params.getDevid();
         Position resp = positionService.queryInfoByDevid(devid);
         LogUtil.info("根据设备编号查询位置信息，响应消息={}", resp);
         return resp;
     }
+
 }

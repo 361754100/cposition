@@ -1,12 +1,11 @@
 package com.hro.core.cposition.threadpool.task;
 
 import com.alibaba.fastjson.JSON;
-import com.hro.core.cposition.common.Constant;
 import com.hro.core.cposition.config.RestfulApi;
 import com.hro.core.cposition.dao.model.Position;
+import com.hro.core.cposition.utils.HttpUtil;
 import com.hro.core.cposition.utils.SpringUtil;
 import com.hro.core.cposition.utils.StringUtils;
-import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,35 +41,12 @@ public class PositionCaculateTask implements Runnable {
 
         double dist = this.getPositionDistance();
 
-        final OkHttpClient client = new OkHttpClient();
-
-        String devid = newPosition.getDevid();
-
-        RequestBody formBody = new FormBody.Builder()
-                .add("devid", devid)
-                .build();
-
-        Request.Builder builder = new Request.Builder();
-        builder.url(apiUrl);
-        builder.addHeader(Constant.X_AUTH_HEADER, "F4J+mzSLsoqwf+YlZH0pVwcR2rGFt3/ZMDhI5hQieKBNIJHmAtxfwnjYBqUkE5w8Il3fZwA1yOt3S/ilSNRm7GAtWMVK3Sm/U3a/dKI2f3JWsWZjm+P2Mef26w2kndPE0T5o6YMLO5blTeybYmZBpL0nMcYs+6DO6/bS5MhM3NY=");
-        builder.method(Constant.METHOD_POST, formBody);
-
-        final Request request = builder.build();
-
-        Response response = null;
         try {
-            response = client.newCall(request).execute();
-        } catch (Exception e) {
-            logger.error("请求接口响应异常", e);
-        }
+            Map map = HttpUtil.postJson(apiUrl, JSON.toJSONString(newPosition));
+            if(map == null) {
+                return;
+            }
 
-        if (response == null || !response.isSuccessful()) {
-            logger.info("请求失败 apiUrl={}", apiUrl);
-            return;
-        }
-
-        try {
-            Map map = (Map) JSON.parse(response.body().string());
             String alarmRadius = StringUtils.toString(map.get("alarmRadius"));
             if(StringUtils.isBlank(alarmRadius)) {
                 return;
@@ -78,7 +54,7 @@ public class PositionCaculateTask implements Runnable {
 
             // 大于5米则报警
             if(dist > Double.parseDouble(alarmRadius)) {
-                logger.info("设备：Devid={}，位置偏移告警，偏移量：{}米", new Object[]{devid, dist});
+                logger.info("设备：Devid={}，位置偏移告警，偏移量：{}米", new Object[]{newPosition.getDevid(), dist});
 //                this.sendWarnSms();
             }
         }catch (Exception e) {
