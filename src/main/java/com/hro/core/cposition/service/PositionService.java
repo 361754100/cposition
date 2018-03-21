@@ -129,9 +129,16 @@ public class PositionService {
     public Position queryInfoByDevid(String devid) {
         Position position = null;
 
+        Position oldPosition = (Position) redisService.getObj(CACHE_KEY_PREFIX + devid, Position.class);
+        if(oldPosition != null) {
+            return position;
+        }
+
         List<Position> result = positionDao.queryInfoByDevid(devid);
         if(!CollectionUtils.isEmpty(result)) {
             position = result.get(0);
+
+            redisService.setObj(CACHE_KEY_PREFIX + position.getDevid(), position, CACHE_EXPIRE_TIME);
         }
         return position;
     }
