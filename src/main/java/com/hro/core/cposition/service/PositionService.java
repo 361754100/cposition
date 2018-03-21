@@ -128,7 +128,7 @@ public class PositionService {
      */
     public Position queryInfoByDevid(String devid) {
         Position position = null;
-
+        // 先从缓存中读取数据
         Position oldPosition = (Position) redisService.getObj(CACHE_KEY_PREFIX + devid, Position.class);
         if(oldPosition != null) {
             return position;
@@ -137,7 +137,7 @@ public class PositionService {
         List<Position> result = positionDao.queryInfoByDevid(devid);
         if(!CollectionUtils.isEmpty(result)) {
             position = result.get(0);
-
+            // 把数据放入缓存
             redisService.setObj(CACHE_KEY_PREFIX + position.getDevid(), position, CACHE_EXPIRE_TIME);
         }
         return position;
