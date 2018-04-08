@@ -41,7 +41,7 @@ spring:
       timeout: 3000
 
     application:
-      name: cposition
+      name: cposition-service
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
@@ -57,7 +57,8 @@ pagehelper:
 restfulApi:
     cmanager:
        alarmSet:
-          queryInfoByDevid: http://localhost:8083/cmanager/alarmSet/queryInfoByDevid
+#          queryInfoByDevid: http://localhost:8083/cmanager/alarmSet/queryInfoByDevid
+          queryInfoByDevid: http://CMANAGER-SERVICE/alarmSet/queryInfoByDevid
 
 management:
   endpoint:

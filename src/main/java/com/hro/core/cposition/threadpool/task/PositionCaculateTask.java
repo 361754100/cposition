@@ -1,13 +1,19 @@
 package com.hro.core.cposition.threadpool.task;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.hro.core.cposition.common.Constant;
 import com.hro.core.cposition.config.RestfulApi;
 import com.hro.core.cposition.dao.model.Position;
-import com.hro.core.cposition.utils.HttpUtil;
 import com.hro.core.cposition.utils.SpringUtil;
 import com.hro.core.cposition.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,10 +45,22 @@ public class PositionCaculateTask implements Runnable {
         RestfulApi restfulApi = SpringUtil.getBean(RestfulApi.class);
         String apiUrl = restfulApi.getCmanager_alarmSet_queryInfoByDevid();
 
+        RestTemplate restTemplate = SpringUtil.getBean(RestTemplate.class);
+
+
         double dist = this.getPositionDistance();
 
         try {
-            Map map = HttpUtil.postJson(apiUrl, JSON.toJSONString(newPosition));
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(Constant.X_AUTH_HEADER, "F4J+mzSLsoqwf+YlZH0pVwcR2rGFt3/ZMDhI5hQieKBNIJHmAtxfwnjYBqUkE5w8Il3fZwA1yOt3S/ilSNRm7GAtWMVK3Sm/U3a/dKI2f3JWsWZjm+P2Mef26w2kndPE0T5o6YMLO5blTeybYmZBpL0nMcYs+6DO6/bS5MhM3NY=");
+            JSONObject params = new JSONObject();
+            params.put("devid", newPosition.getDevid());
+            HttpEntity<JSONObject> requestEntity = new HttpEntity<JSONObject>(params, headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
+            String respData = response.getBody();
+
+            Map map = (Map) JSON.parse(respData);
             if(map == null) {
                 return;
             }
@@ -57,6 +75,23 @@ public class PositionCaculateTask implements Runnable {
                 logger.info("设备：Devid={}，位置偏移告警，偏移量：{}米", new Object[]{newPosition.getDevid(), dist});
 //                this.sendWarnSms();
             }
+
+//--------------使用 OkHttp 发送http请求
+//            Map map = HttpUtil.postJson(apiUrl, JSON.toJSONString(newPosition));
+//            if(map == null) {
+//                return;
+//            }
+//
+//            String alarmRadius = StringUtils.toString(map.get("alarmRadius"));
+//            if(StringUtils.isBlank(alarmRadius)) {
+//                return;
+//            }
+//
+//            // 大于5米则报警
+//            if(dist > Double.parseDouble(alarmRadius)) {
+//                logger.info("设备：Devid={}，位置偏移告警，偏移量：{}米", new Object[]{newPosition.getDevid(), dist});
+////                this.sendWarnSms();
+//            }
         }catch (Exception e) {
             logger.error("解析接口响应异常", e);
         }
