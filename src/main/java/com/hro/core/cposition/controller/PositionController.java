@@ -8,7 +8,6 @@ import com.hro.core.cposition.log.LogUtil;
 import com.hro.core.cposition.service.PositionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

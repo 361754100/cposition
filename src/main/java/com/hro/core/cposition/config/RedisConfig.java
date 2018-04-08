@@ -1,25 +1,15 @@
 package com.hro.core.cposition.config;
 
 import com.hro.core.cposition.log.LogUtil;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisPassword;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import redis.clients.jedis.JedisPoolConfig;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLParameters;
-import javax.net.ssl.SSLSocketFactory;
-import java.time.Duration;
-import java.util.Optional;
 
 @Configuration
 @EnableAutoConfiguration
@@ -59,18 +49,22 @@ public class RedisConfig {
     @ConfigurationProperties(prefix = "spring.redis")
     public JedisConnectionFactory getConnectionFactory() {
         JedisPoolConfig config = getRedisConfig();
+//
+//        RedisPassword redisPassword = RedisPassword.of(this.password);
+//
+//        RedisStandaloneConfiguration aloneConfig = new RedisStandaloneConfiguration();
+//        aloneConfig.setHostName(this.host);
+//        aloneConfig.setPassword(redisPassword);
+//        aloneConfig.setDatabase(this.database);
+//        aloneConfig.setPort(this.port);
 
-        RedisPassword redisPassword = RedisPassword.of(this.password);
+        JedisConnectionFactory factory = new JedisConnectionFactory(config);
+        factory.setPassword(this.password);
+        factory.setHostName(this.host);
+        factory.setDatabase(this.database);
+        factory.setPort(this.port);
 
-        RedisStandaloneConfiguration aloneConfig = new RedisStandaloneConfiguration();
-        aloneConfig.setHostName(this.host);
-        aloneConfig.setPassword(redisPassword);
-        aloneConfig.setDatabase(this.database);
-        aloneConfig.setPort(this.port);
-
-        JedisConnectionFactory factory = new JedisConnectionFactory(aloneConfig);
-
-        factory.setPoolConfig(config);
+//        factory.setPoolConfig(config);
         LogUtil.info("JedisConnectionFactory bean init success.");
         return factory;
     }

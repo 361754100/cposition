@@ -40,6 +40,9 @@ spring:
           min-idle: 0
       timeout: 3000
 
+    application:
+      name: cposition
+
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.hro.core.cmanager.dao.model
@@ -55,3 +58,13 @@ restfulApi:
     cmanager:
        alarmSet:
           queryInfoByDevid: http://localhost:8083/cmanager/alarmSet/queryInfoByDevid
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

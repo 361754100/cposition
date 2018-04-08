@@ -1,5 +1,5 @@
 server:
-  port: 8086
+  port: 8082
   servlet:
     context-path: /cposition
 
@@ -54,4 +54,4 @@ pagehelper:
 restfulApi:
     cmanager:
        alarmSet:
-          queryInfoByDevid: http://localhost:8083/cmanager/alarmSet/queryInfoByDevid
+          queryInfoByDevid: http://localhost:8081/cmanager/alarmSet/queryInfoByDevid
