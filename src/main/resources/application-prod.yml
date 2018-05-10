@@ -6,7 +6,7 @@ server:
 spring:
     datasource:
         name: test
-        url: jdbc:mysql://193.112.105.43:3306/carmonitor?useSSL=false
+        url: jdbc:mysql://127.0.0.1:3306/carmonitor?useSSL=false
         username: root
         password: rycuj9_Jian
         # 使用druid数据源
@@ -29,7 +29,7 @@ spring:
       static-locations: classpath:/META-INF/resources/
     redis:
       database: 0
-      host: 193.112.105.43
+      host: 127.0.0.1
       port: 6379
       password: rycuj9
       jedis:
