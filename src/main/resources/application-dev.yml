@@ -6,7 +6,7 @@ server:
 spring:
     datasource:
         name: test
-        url: jdbc:mysql://193.112.105.43:3306/carmonitor?useSSL=false
+        url: jdbc:mysql://127.0.0.1:3306/carmonitor?useSSL=false
         username: root
         password: rycuj9_Jian
         # 使用druid数据源
